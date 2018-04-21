@@ -15,6 +15,10 @@ import (
 	"gopkg.in/asn1-ber.v1"
 )
 
+func TestIsCloser(t *testing.T) {
+	var _ io.Closer = &Conn{}
+}
+
 func TestUnresponsiveConnection(t *testing.T) {
 	// The do-nothing server that accepts requests and does nothing
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

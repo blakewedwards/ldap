@@ -9,7 +9,7 @@ import (
 type Client interface {
 	Start()
 	StartTLS(config *tls.Config) error
-	Close()
+	Close() error
 	SetTimeout(time.Duration)
 
 	Bind(username, password string) error

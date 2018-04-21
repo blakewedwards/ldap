@@ -164,7 +164,8 @@ func (l *Conn) setClosing() bool {
 }
 
 // Close closes the connection.
-func (l *Conn) Close() {
+func (l *Conn) Close() error {
+	var err error
 	l.messageMutex.Lock()
 	defer l.messageMutex.Unlock()
 
@@ -175,13 +176,14 @@ func (l *Conn) Close() {
 		close(l.chanMessage)
 
 		l.Debug.Printf("Closing network connection")
-		if err := l.conn.Close(); err != nil {
+		if err = l.conn.Close(); err != nil {
 			log.Println(err)
 		}
 
 		l.wgClose.Done()
 	}
 	l.wgClose.Wait()
+	return err
 }
 
 // SetTimeout sets the time after a request is sent that a MessageTimeout triggers
